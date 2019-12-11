@@ -53,17 +53,20 @@ class Tree:
 
     def entropyCalc(self, featureNum):
         featureEntropy = []
-        split, num = self.train(featureNum)
+        split, num, classes = self.train(featureNum)
+        f1 = len(self.training[0])/num
+        f2 = len(self.training[1])/num
+        f3 = len(self.training[2])/num
+        f4 = len(self.training[3])/num
+        totEntro = -(f1*math.log(f1, 2))-(f2*math.log(f2, 2))-(f3*math.log(f3, 2))-(f4*math.log(f4, 2))
         for a in range(len(split)):
             entro = 0
             for b in range(len(split[a])):
-                for c in range(len(split[a][b])):
-                    if split[a][b][c] != 0:
-                        floaty = split[a][b][c]/num
-                        logy = math.log(floaty, 2)
-                        entro += -floaty*logy
-
-            featureEntropy.append(entro)
+                if classes[a][b] != 0:
+                    ansNum = classes[a][b]/num
+                    entro += -((ansNum)*math.log(((classes[a][b])/num), 2))
+            featureEntropy.append(totEntro-entro)
+            #
 
         return featureEntropy
 
@@ -74,9 +77,12 @@ class Tree:
         print(quantiles)
         split = []
         num = 0
+        classes = []
         for __ in range(len(self.training[0][0])):
             split.append([])
+            classes.append([])
             for _ in range(3):
+                classes[-1].append(0)
                 split[-1].append([])
                 for ___ in range(len(self.training)):
                     split[-1][-1].append(0)
@@ -85,14 +91,18 @@ class Tree:
                 num += 1
                 for feat in range(len(self.training[c][ex])):
                     if self.training[c][ex][feat] < quantiles[0][feat]:
+                        classes[feat][0] += 1
                         split[feat][0][c] += 1
+
                     elif self.training[c][ex][feat] > quantiles[0][feat] and self.training[c][ex][feat] < quantiles[1][feat]:
                         split[feat][1][c] += 1
+                        classes[feat][1] += 1
 
                     else:
                         split[feat][2][c] += 1
+                        classes[feat][2] += 1
 
-        return split, num
+        return split, num, classes
 
     def informationGain(self):
         pass
