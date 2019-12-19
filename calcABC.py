@@ -5,12 +5,11 @@ class ABC:
         self.covarA = covarA
         self.covarB = covarB
         self.mean = mean
-        self.covarAInv, self.covarBInv = None, None
+        self.covarAInv = np.linalg.pinv(self.covarA)
+        self.covarBInv = np.linalg.pinv(self.covarB)
         self.MeanAT, self.MeanBT = None, None
 
     def calcA(self):
-        self.covarAInv = np.linalg.inv(self.covarA)
-        self.covarBInv = np.linalg.inv(self.covarB)
         A = self.covarBInv - self.covarAInv
         return A
 
@@ -21,9 +20,17 @@ class ABC:
 
         return B
 
-    def calcC(self): ##Read me!
-        lnA = math.log1p(np.linalg.det(self.covarA))
-        lnB = math.log1p(np.linalg.det(self.covarB))
+    def calcC(self):
+        lnA = 0.0
+        lnB = 0.0
+        for a in range(len(self.covarB)):
+            for b in range(len(self.covarB[a])):
+                A = self.covarAInv[a][b]
+                B = self.covarBInv[a][b]
+                if abs(A) > 0:
+                    lnA += math.log(abs(A), 2)
+                if abs(B) > 0:
+                    lnB += math.log(abs(B), 2)
 
         lnSum = lnB-lnA
 

@@ -1,17 +1,19 @@
 class mean:
     def __init__(self, numClasses, numFeatures):
-        self.sum = []
-        for a in range(numClasses):
-            self.sum.append([])
-            for b in range(numFeatures):
-                self.sum[-1].append(0)
-        self.num = [0, 0]
+        self.sumList = []
+        for _ in range(5):
+            self.sumList.append([])
+            for a in range(numClasses):
+                self.sumList[-1].append([])
+                for b in range(numFeatures):
+                    self.sumList[-1][-1].append(0.0)
 
-    def meanCalc(self, x, classNum):
+    def meanCalc(self, x, classNum, fold):
+        num = [0, 0, 0, 0]
         for a in x:
-            self.num[0] += 1
+            num[classNum] += 1.0
             for z in range(len(a)):
-                self.sum[classNum][z] += float(a[z])
+                self.sumList[fold][classNum][z] += float(a[z])
 
-        for s in range(len(self.sum)):
-                self.sum[classNum][s] /= self.num[0]
+        for s in range(len(self.sumList[fold])):
+                self.sumList[fold][classNum][s] /= float(num[classNum])
