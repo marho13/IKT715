@@ -1,7 +1,7 @@
 def kfold(data, ind, foldNumber):
     outputX = []
     outputY = []
-    print(len(data))
+    # print(len(data))
     for a in range(len(data)):
         outputX.append([])
         numIter = len(data[a]) // foldNumber

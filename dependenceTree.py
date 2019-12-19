@@ -59,12 +59,7 @@ class Tree:
 
     def entropyCalc(self, featureNum):
         featureEntropy = []
-        split, num, classes = self.train(featureNum)
-        f1 = len(self.training[0])/num
-        f2 = len(self.training[1])/num
-        f3 = len(self.training[2])/num
-        f4 = len(self.training[3])/num
-        totEntro = -(f1*math.log(f1, 2))-(f2*math.log(f2, 2))-(f3*math.log(f3, 2))-(f4*math.log(f4, 2))
+        split, num, classes = self.train(featureNum, 0, 1)
         for a in range(len(split)):
             entro = 0
             for b in range(len(split[a])):
@@ -135,3 +130,4 @@ train, test = kfold.kfold(dataSet, 0, 5)
 
 t = Tree(train, test)
 t.entropyCalc(len(train[0][0]))
+
