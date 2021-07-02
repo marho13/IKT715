@@ -13,3 +13,4 @@ def kfold(data, ind, foldNumber):
                 for c in range((b*numIter), ((b+1)*numIter), 1):
                     outputX[-1].append(data[a][c])
     return outputX, outputY
+
