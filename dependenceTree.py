@@ -131,3 +131,4 @@ train, test = kfold.kfold(dataSet, 0, 5)
 t = Tree(train, test)
 t.entropyCalc(len(train[0][0]))
 
+

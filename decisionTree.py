@@ -173,3 +173,4 @@ train, test = kfold.kfold(dataSet, 0, 5)
 t = Tree(train, test)
 t.fit()
 t.predict()
+
